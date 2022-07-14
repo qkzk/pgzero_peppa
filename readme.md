@@ -1,5 +1,7 @@
 # Peppa
 
+![peppa](./images/peppa.png)
+
 A simple game for a very young kid.
 
 - Press space to play a stupid sound and change the background color
