@@ -1,4 +1,4 @@
-#! /usr/bin/pyhon
+#! /usr/bin/python
 """
 title: PEPPA
 author: qkzk
