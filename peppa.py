@@ -38,6 +38,20 @@ COLORS = (
 )
 
 
+class Sprite:
+    def __init__(self, image: str):
+        self.image = image
+        self.pos = (0, 0)
+        self.actor = Actor(self.image, center=self.pos)
+
+    def draw(self):
+        self.actor.draw()
+
+    def update(self):
+        self.pos = pygame.mouse.get_pos()
+        self.actor = Actor(self.image, center=self.pos)
+
+
 def play_random_sound():
     choice(SOUNDS).play()
 
@@ -86,20 +100,6 @@ def draw():
     draw_eye(WIDTH // 2 - 100, HEIGHT // 2)
     draw_eye(WIDTH // 2 + 100, HEIGHT // 2)
     peppa.draw()
-
-
-class Sprite:
-    def __init__(self, image: str):
-        self.image = image
-        self.pos = (0, 0)
-        self.actor = Actor(self.image, center=self.pos)
-
-    def draw(self):
-        self.actor.draw()
-
-    def update(self):
-        self.pos = pygame.mouse.get_pos()
-        self.actor = Actor(self.image, center=self.pos)
 
 
 peppa = Sprite("peppa")
