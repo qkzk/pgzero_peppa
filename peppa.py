@@ -8,15 +8,17 @@ Simple game for a very young kid.
 """
 
 
-import pygame
 import math
+import string
+
+import pygame
 import pgzrun
-from random import choice
+from random import choice, randint
 
 
 TITLE = "PEPPA"
-WIDTH = 1400
-HEIGHT = 800
+WIDTH = 1920
+HEIGHT = 1080
 
 
 OUTSIDE = (8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0)
@@ -37,6 +39,15 @@ COLORS = (
     (50, 0, 50),
     (0, 50, 50),
 )
+LETTER_COLORS = (
+    (0, 255, 255),
+    (255, 255, 0),
+    (255, 255, 0),
+    (120, 120, 255),
+    (255, 120, 120),
+    (120, 255, 120),
+)
+LETTERS = string.ascii_lowercase
 
 
 class Sprite:
@@ -77,12 +88,41 @@ def draw_eye(eye_x, eye_y):
     screen.draw.filled_circle((pupil_x, pupil_y), 15, color=color[0])
 
 
+def new_symbol(symbol: str) -> tuple:
+    fontsize = randint(60, 120)
+    x = randint(0, WIDTH - fontsize)
+    y = randint(0, HEIGHT - fontsize)
+    owidth = 1
+    color = choice(LETTER_COLORS)
+    return (
+        symbol.upper(),
+        (x, y),
+        {"fontsize": fontsize, "owidth": owidth, "ocolor": "black", "color": color},
+    )
+
+
+def draw_letters():
+    for letter, pos, kwargs in letters:
+        screen.draw.text(letter, pos, **kwargs)
+
+
+def update_letters(key: str):
+    letters.append(new_symbol(key))
+    if len(letters) > 30:
+        del letters[0]
+
+
 def on_key_down():
-    if keyboard["escape"]:
-        exit()
+    # if keyboard["escape"]:
+    #     exit()
     if keyboard["space"]:
         play_random_sound()
         pick_random_color()
+    for key in LETTERS:
+        play_random_sound()
+        pick_random_color()
+        if keyboard[key]:
+            update_letters(key)
 
 
 def on_mouse_down(button):
@@ -100,9 +140,11 @@ def draw():
 
     draw_eye(WIDTH // 2 - 100, HEIGHT // 2)
     draw_eye(WIDTH // 2 + 100, HEIGHT // 2)
+    draw_letters()
     peppa.draw()
 
 
 peppa = Sprite("peppa")
 color = [COLORS[0]]
+letters = []
 pgzrun.go()
