@@ -51,6 +51,8 @@ LETTERS = string.ascii_lowercase
 
 
 class Sprite:
+    """Holds a drawable sprite"""
+
     def __init__(self, image: str):
         self.image = image
         self.pos = (0, 0)
@@ -65,14 +67,17 @@ class Sprite:
 
 
 def play_random_sound():
+    """Pick a random sound and plays it"""
     choice(SOUNDS).play()
 
 
 def pick_random_color():
+    """pick a random color, assign it to first element of `color` list."""
     color[0] = choice(COLORS)
 
 
 def draw_eye(eye_x, eye_y):
+    """Draw the eyes which look at the mouse cursor."""
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
     distance_x = mouse_x - eye_x
@@ -88,7 +93,8 @@ def draw_eye(eye_x, eye_y):
     screen.draw.filled_circle((pupil_x, pupil_y), 15, color=color[0])
 
 
-def new_symbol(symbol: str) -> tuple:
+def new_letter(symbol: str) -> tuple:
+    """Return the arguments of a new drawable letter."""
     fontsize = randint(60, 120)
     x = randint(0, WIDTH - fontsize)
     y = randint(0, HEIGHT - fontsize)
@@ -102,12 +108,17 @@ def new_symbol(symbol: str) -> tuple:
 
 
 def draw_letters():
+    """Draw all the letters."""
     for letter, pos, kwargs in letters:
         screen.draw.text(letter, pos, **kwargs)
 
 
 def update_letters(key: str):
-    letters.append(new_symbol(key))
+    """
+    Add a new letter, removes a letter from the list of letters
+    if there's too much letters.
+    """
+    letters.append(new_letter(key))
     if len(letters) > 30:
         del letters[0]
 
